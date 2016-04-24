@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 final String CSV_FILE_PATH =  "data/zooMockUpCSV.csv";
 
+boolean showVisual = false;
 
 PImage img_1, img_2, img_3;
 ControlP5 cp5;
@@ -17,6 +18,8 @@ String[] wordsToIgnore;
 
 ArrayList<PopularWord> mostPopularWords;
 ArrayList<PopularPhrase> mostPopularPhrases;
+ArrayList<Word> wordsToDisplay;
+
 ArrayList<String> allEntries;
 
 void setup() {
@@ -102,12 +105,18 @@ void setup() {
 
 void draw() {
   //background(0);
+  
+  if (!showVisual) {
+  
   image(img_1, 5, 0);
   image(img_2, 650,215);
   image(img_3, 850,645);
   fill(0,255,0);
   //text(cp5.get(Textfield.class,"input").getText(), 360,130);
   text(textValue, 360,180);
+  } else {
+    drawVisual();
+  }
   //text(textValue, 360,360);
 }
 
@@ -117,18 +126,17 @@ public void clear() {
 }
 
 void controlEvent(ControlEvent theEvent) {
-  if(theEvent.isAssignableFrom(Textfield.class)) {
-    println("controlEvent: accessing a string from controller '"
-            +theEvent.getName()+"': "
-            +theEvent.getStringValue()
-            );
-  }
 }
 
 
 public void input(String theText) {
   //public void enteryourphrase(String theText) {
   // automatically receives results from controller input
+  
+  if (showVisual) {
+    println("SHOWING VISUAL, RETURNING");
+    return;
+  }
   
   if (theText.contains(",")) {
     JOptionPane.showMessageDialog(null, "Please avoid using longer phrases that inculde commas");
@@ -168,13 +176,19 @@ public void input(String theText) {
   
   saveStrings( CSV_FILE_PATH, entriesToSave);
   
-  println(entriesToSave + " saved to " + CSV_FILE_PATH);
+  println("\"" + entriesToSave + "\" saved to \"" + CSV_FILE_PATH + "\"");
 
   allEntries.add(theText);
 
   recalculatePopularWords();
 
   recalculatePopularPhrases();
+  
+  setWordsToDisplay();
+  
+  setupVisual();
+  
+  showVisual = true;
 
 }
 
@@ -184,7 +198,7 @@ public void recalculatePopularWords() {
   
   for (int i = 0; i < allEntries.size(); i++) {
     
-    String phrase = allEntries.get(i).replaceAll("[^a-zA-Z ]", "").toLowerCase();
+    String phrase = allEntries.get(i).replaceAll("[^a-zA-Z ]", "").toLowerCase().trim();
     
     String[] words = phrase.split(" ");
     
@@ -213,7 +227,7 @@ public void recalculatePopularWords() {
         
         if (popularWords.get(k).equals(words[j])) {
           
-          println("Old entry: " + popularWords.get(k).getWord() + " matched with " + words[j]);
+          println("Old entry: \"" + popularWords.get(k).getWord() + "\" matched with \"" + words[j] + "\"");
           
           popularWords.get(k).addPhraseUsedIn(phrase);
           foundMatch = true;
@@ -222,7 +236,7 @@ public void recalculatePopularWords() {
       }
       
       if (!foundMatch) {
-        println("The word " + words[j] + " is new and will be added");
+        println("The word \"" + words[j] + "\" is new and will be added");
         popularWords.add(new PopularWord(words[j], phrase));
       }
     }
@@ -237,7 +251,7 @@ public void recalculatePopularWords() {
     
     for (int j = 0; j < popularWords.size(); j++) {
       
-      println("The word " + popularWords.get(j).getWord() + " has " + popularWords.get(j).getNumberOfTimesUsed() + " refrences");
+      println("The word \"" + popularWords.get(j).getWord() + "\" has " + popularWords.get(j).getNumberOfTimesUsed() + " refrences");
       
       if (!mostPopularWords.contains(popularWords.get(j)) && popularWords.get(j).getNumberOfTimesUsed() > maxValue) {
         
@@ -246,12 +260,12 @@ public void recalculatePopularWords() {
         
       }
     }
-      println("Picked " + popularWords.get(maxPos).getWord() + " for pos " + i + " because it had " + popularWords.get(maxPos).getNumberOfTimesUsed() + " refrences");
+      println("Picked \"" + popularWords.get(maxPos).getWord() + "\" for pos " + i + " because it had " + popularWords.get(maxPos).getNumberOfTimesUsed() + " refrences");
       mostPopularWords.add(popularWords.get(maxPos));
   }
   
   for (int i = 0; i < 7; i++) {
-    println("Popular Word Number " + i + " is: " + mostPopularWords.get(i).getWord());
+    println("Popular Word Number " + i + " is: \"" + mostPopularWords.get(i).getWord() + "\"");
   }
 }
 
@@ -261,7 +275,7 @@ public void recalculatePopularPhrases() {
   
   for (int i = 0; i < allEntries.size(); i++) {
     
-    String curPhrase = allEntries.get(i).replaceAll("[^a-zA-Z ]", "");
+    String curPhrase = allEntries.get(i).replaceAll("[^a-zA-Z ]", "").toLowerCase().trim();
     
     boolean foundMatch = false;
     
@@ -289,7 +303,7 @@ public void recalculatePopularPhrases() {
     
     for (int j = 0; j < popularPhrases.size(); j++) {
       
-      println("The phrase " + popularPhrases.get(j).getPhrase() + " has " + popularPhrases.get(j).getNumberOfTimesUsed() + " refrences");
+      println("The phrase \"" + popularPhrases.get(j).getPhrase() + "\" has " + popularPhrases.get(j).getNumberOfTimesUsed() + " refrences");
       
       if (!mostPopularPhrases.contains(popularPhrases.get(j)) && popularPhrases.get(j).getNumberOfTimesUsed() > maxValue) {
         
@@ -298,13 +312,46 @@ public void recalculatePopularPhrases() {
         
       }
     }
-      println("Picked " + popularPhrases.get(maxPos).getPhrase() + " for pos " + i + " because it had " + popularPhrases.get(maxPos).getNumberOfTimesUsed() + " refrences");
+      println("Picked \"" + popularPhrases.get(maxPos).getPhrase() + "\" for pos " + i + " because it had " + popularPhrases.get(maxPos).getNumberOfTimesUsed() + " refrences");
       mostPopularPhrases.add(popularPhrases.get(maxPos));
   }
   
   for (int i = 0; i < 14; i++) {
-    println("Popular Phrase Number " + i + " is: " + mostPopularPhrases.get(i).getPhrase());
+    println("Popular Phrase Number " + i + " is: \"" + mostPopularPhrases.get(i).getPhrase() + "\"");
   }
+}
+
+public void setWordsToDisplay() {
+   
+  int amountToWords = 200;
+  
+  int count = 0;
+  
+  wordsToDisplay = new ArrayList<Word>();
+  
+  for (int i = allEntries.size() - 1; i >= 0; i--) {
+    
+    if (mostPopularWords.contains(allEntries.get(i))) {
+      continue;
+    }
+   
+    Word curWord = new Word(allEntries.get(i));
+    
+    for (int j = 0; j < mostPopularPhrases.size(); j++) {
+      
+      if (mostPopularPhrases.get(j).getPhrase().contains(allEntries.get(i))) {
+       
+       curWord.addPhraseUsedIn(mostPopularPhrases.get(j).getPhrase());
+        
+      }
+    }
+    
+    count++;
+    
+    if (count >= amountToWords) { 
+      break;
+    }
+  } 
 }
 
 
