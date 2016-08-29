@@ -1,4 +1,4 @@
-size(300,300);
+size(350,350);
 //radius of the large parent circle
 float r = 35.0;
 //float theta = 3.14;
@@ -10,7 +10,7 @@ float r2;
 float r3; 
 noStroke();
 fill(255);
-ellipse(150,150,70,70);
+ellipse(175,175,300,300);
 
 for(num = 0; num <10; num++){
   fill(200,0,0);
