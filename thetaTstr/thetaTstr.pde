@@ -1,16 +1,16 @@
-size(350,350);
+size(300,300);
 //radius of the large parent circle
 //float r = 35.0;
 //float theta = 3.14;
 //counters for iterations
 int num; int num2; int num3;
-//radius of the unseen circle to which each objet-circle adheres
+//radius of the unseen circle to which each object-circle adheres
 float r1; 
 float r2;
 float r3; 
 noStroke();
 fill(255);
-ellipse(175,175,300,300);
+ellipse(150,150,270,270);
 
 
 for(num = 0; num <10; num++){
@@ -19,9 +19,9 @@ for(num = 0; num <10; num++){
  float c = random(0,255);
   fill(a,b,c);
   println("a = " +a);
-//float theta = random(2.6,3.2); //radian position of each small circle
+//float theta = random(2.6,3.2); //radian position of each object-circle
 float theta = random(.7, 10.6);
-//randomizes how close each small circle is positioned to the center of the parent circle
+//randomizes how close each object-circle is positioned to the center of the parent circle
 //r1 = random(20,30);
 r1 = random(30,100);
 //float x = cos(theta)* random(5,35);
@@ -45,7 +45,7 @@ ellipse(w,h,10,10);
 for(num2 = 0; num2 <20; num2++){
   fill(0,200,0);
 float theta = random(2.6,3.2); //radian position of each small circle
-//randomizes how close each small circle is positioned to the center of the parent circle
+//randomizes how close each object-circle is positioned to the center of the parent circle
 r2 = random(12,20);
 //float x = cos(theta)* random(5,35);
 //float y = sin(theta)* random(5,35); 
@@ -64,7 +64,7 @@ float h = map(y, -35, 35, 115, 185);
 for(num3 = 0; num3 <30; num3++){
   fill(0,0,200);
 float theta = random(2.6,3.2); //radian position of each small circle
-//randomizes how close each small circle is positioned to the center of the parent circle
+//randomizes how close each object-circle is positioned to the center of the parent circle
 r3 = random(3,12);
 //float x = cos(theta)* random(5,35);
 //float y = sin(theta)* random(5,35); 
