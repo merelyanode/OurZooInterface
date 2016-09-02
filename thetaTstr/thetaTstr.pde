@@ -4,7 +4,7 @@ size(350,350);
 //float theta = 3.14;
 //counters for iterations
 int num; int num2; int num3;
-//radius of the unseen circle to which each small circle adheres
+//radius of the unseen circle to which each objet-circle adheres
 float r1; 
 float r2;
 float r3; 
@@ -15,15 +15,15 @@ ellipse(175,175,300,300);
 
 for(num = 0; num <10; num++){
   float a = random(0,200);
-  float b = random(255,0);
- float c = random(255,0);
+  float b = random(0,255);
+ float c = random(0,255);
   fill(a,b,c);
   println("a = " +a);
 //float theta = random(2.6,3.2); //radian position of each small circle
-float theta = random(10.6,.7);
+float theta = random(.7, 10.6);
 //randomizes how close each small circle is positioned to the center of the parent circle
 //r1 = random(20,30);
-r1 = random(100,30);
+r1 = random(30,100);
 //float x = cos(theta)* random(5,35);
 //float y = sin(theta)* random(5,35); 
 float x = cos(theta)* r1;
