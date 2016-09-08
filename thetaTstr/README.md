@@ -1,4 +1,4 @@
-<img width="301" alt="thetatester_3d" src="https://cloud.githubusercontent.com/assets/1186477/18337857/43d4d034-7562-11e6-8be3-2fabcbba9618.png">
+<img width="201" alt="thetatester_3d" src="https://cloud.githubusercontent.com/assets/1186477/18337857/43d4d034-7562-11e6-8be3-2fabcbba9618.png">
 
 This is a 2d workshop that illustrates how to randomise 2d polar coordinates  in the manner that will be applied to 3d spherical coordinates for the final visualization.
 
